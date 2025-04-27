@@ -13,7 +13,7 @@ export const MENU_DATA: IMenuItem[] = [
     {
         icon: 'material-symbols:view-kanban',
         name: 'Канбан',
-        url: '/',
+        url: '/kanban',
     },
     {
         name: 'Заказы',
