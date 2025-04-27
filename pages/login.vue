@@ -1,8 +1,7 @@
 <script setup lang="ts">
 useHead({
-  title: 'Авторизация - CRM System',
+  title: 'Авторизация - Kanban System',
 })
-import {Input} from "~/components/ui/input";
 
 const loginRef = ref('')
 const passwordRef = ref('')

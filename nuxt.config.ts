@@ -18,11 +18,15 @@ export default defineNuxtConfig({
       }
     ],
     '@nuxt/icon',
+    '@pinia/nuxt',
   ],
   css: ['~/assets/css/main.css'],
   shadcn: {
     prefix: 'Ui',
     componentDir: './components/ui'
+  },
+  pinia: {
+    storesDirs: ['./store/**'],
   },
   compatibilityDate: '2025-04-25',
 })
