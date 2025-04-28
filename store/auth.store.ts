@@ -1,13 +1,13 @@
 interface IAuthStore {
     login: string;
-    name: string;
+    password: string;
     status: boolean;
 }
 
 const defaultValue: { user: IAuthStore } = {
     user: {
         login: '',
-        name: '',
+        password: '',
         status: false,
     },
 }
