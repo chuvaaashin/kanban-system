@@ -16,13 +16,13 @@ export const MENU_DATA: IMenuItem[] = [
         url: '/kanban',
     },
     {
+        name: 'Сотрудники',
+        icon: 'mingcute:group-line',
+        url: '/workers',
+    },
+    {
         name: 'Заказы',
         icon: 'fluent:receipt-28-regular',
         url: '/orders',
-    },
-    {
-        name: 'Клиенты',
-        icon: 'mingcute:group-line',
-        url: '/customers',
     },
 ]

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import {useAuthStore} from "~/store/auth.store";
 
+useHead({
+  title: 'Главная - Kanban System'
+})
+
 const authStore = useAuthStore()
 console.log(authStore.user)
 </script>
