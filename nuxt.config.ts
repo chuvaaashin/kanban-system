@@ -1,4 +1,11 @@
 export default defineNuxtConfig({
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', href: '/favicon.svg' },
+      ]
+    }
+  },
   devtools: { enabled: true },
   modules: [
     '@nuxt/image',
