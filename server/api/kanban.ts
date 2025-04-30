@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody } from 'h3'
+import { defineEventHandler } from 'h3'
 import { Pool } from 'pg'
 
 const pool = new Pool({
@@ -8,10 +8,7 @@ const pool = new Pool({
   port: 5432,
 })
 
-export default defineEventHandler(async (event) => {
-    const body = await readBody(event)
-    const {id, name, description, status, created_at} = body
-
-    const result = await pool.query('SELECT * FROM tasks')
-    return result
+export default defineEventHandler(async () => {
+  const result = await pool.query('SELECT * FROM tasks')
+  return result.rows
 })
