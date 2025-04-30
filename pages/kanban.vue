@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import CreateTaskModal from '~/components/layout/CreateTaskForm.vue'
 useHead({
   title: 'Доска задач - Kanban System'
 })
@@ -15,49 +16,18 @@ const isFormOpen = ref(false)
 const name = ref('')
 const status = ref('backlog')
 const description = ref('')
-
-
-const toggleForm = () => {
-  isFormOpen.value = !isFormOpen.value
-}
-
-const createTask = async () => {
-  const newTask = {
-    name: name.value,
-    status: status.value,
-    description: description.value,
-  }
-
-  try {
-    const { data, error } = await useFetch('/api/tasks/create', {
-      method: 'POST',
-      body: newTask,
-    })
-
-    if (error.value) {
-      alert('Ошибка при создании задачи')
-    } else {
-      alert('Задача успешно создана')
-      // очищаем форму и закрываем
-      name.value = ''
-      status.value = 'backlog'
-      description.value = ''
-      isFormOpen.value = false
-    }
-  } catch (err) {
-    console.error('Ошибка:', err)
-    alert('Произошла ошибка')
-  }
-}
+const isModalOpen = ref(false)
 </script>
 
 <template>
+
   <div class="p-10 flex justify-between items-center">
     <h1 class="font-bold text-2xl mb-10">Kanban Board</h1>
-    <UiButton class="w-56 bg-purple-700" @click="toggleForm">
+    <UiButton class="w-56 bg-purple-700" @click="isModalOpen = true">
       {{ isFormOpen ? 'Закрыть форму' : 'Создать задачу' }}
     </UiButton>
   </div>
+  <CreateTaskModal v-if="isModalOpen" @close="isModalOpen = false" />
   <div class="grid grid-cols-4">
     <div>
       <h2 class="m-6 bg-purple-950 rounded-lg flex justify-center items-center h-14 max-w-72">Архив</h2>
@@ -103,7 +73,6 @@ const createTask = async () => {
       </template>
     </div>
   </div>
-
 </template>
 
 <style scoped>
