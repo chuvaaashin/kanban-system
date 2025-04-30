@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     ],
     '@nuxt/icon',
     '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt'
   ],
   css: ['~/assets/css/main.css'],
   shadcn: {

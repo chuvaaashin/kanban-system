@@ -24,7 +24,8 @@ export const useAuthStore = defineStore('auth', {
         set(input: IAuthStore) {
             this.$patch({user: input})
         }
-    }
+    },
+    persist: true,
 })
 
 export const useIsLoadingStore = defineStore('isLoading', {

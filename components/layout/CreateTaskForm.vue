@@ -54,7 +54,7 @@ const emit = defineEmits(['close'])
 const name = ref('')
 const status = ref('backlog')
 const description = ref('')
-const statuses = ['backlog', 'in_progress', 'pause', 'done']
+const statuses = ['backlog', 'in_progress', 'paused', 'done']
 
 const createTask = async () => {
   const { data, error } = await useFetch('/api/createTask', {

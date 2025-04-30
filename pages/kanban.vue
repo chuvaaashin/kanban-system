@@ -4,7 +4,6 @@ import CreateTaskModal from '~/components/layout/CreateTaskForm.vue'
 useHead({
   title: 'Доска задач - Kanban System'
 })
-const statuses = ['backlog', 'in_progress', 'pause', 'done']
 const { data: tasks, error } = await useFetch('/api/kanban')
 const backlog = computed(() => tasks.value?.filter(t => t.status === 'backlog') || [])
 const inProgress = computed(() => tasks.value?.filter(t => t.status === 'in_progress') || [])
