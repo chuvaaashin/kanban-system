@@ -1,17 +1,62 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 useHead({
   title: 'Доска задач - Kanban System'
 })
+const statuses = ['backlog', 'in_progress', 'pause', 'done']
 const { data: tasks, error } = await useFetch('/api/kanban')
 const backlog = computed(() => tasks.value?.filter(t => t.status === 'backlog') || [])
 const inProgress = computed(() => tasks.value?.filter(t => t.status === 'in_progress') || [])
 const paused = computed(() => tasks.value?.filter(t => t.status === 'paused') || [])
 const done = computed(() => tasks.value?.filter(t => t.status === 'done') || [])
+
+const isFormOpen = ref(false)
+
+const name = ref('')
+const status = ref('backlog')
+const description = ref('')
+
+
+const toggleForm = () => {
+  isFormOpen.value = !isFormOpen.value
+}
+
+const createTask = async () => {
+  const newTask = {
+    name: name.value,
+    status: status.value,
+    description: description.value,
+  }
+
+  try {
+    const { data, error } = await useFetch('/api/tasks/create', {
+      method: 'POST',
+      body: newTask,
+    })
+
+    if (error.value) {
+      alert('Ошибка при создании задачи')
+    } else {
+      alert('Задача успешно создана')
+      // очищаем форму и закрываем
+      name.value = ''
+      status.value = 'backlog'
+      description.value = ''
+      isFormOpen.value = false
+    }
+  } catch (err) {
+    console.error('Ошибка:', err)
+    alert('Произошла ошибка')
+  }
+}
 </script>
 
 <template>
-  <div class="p-10">
+  <div class="p-10 flex justify-between items-center">
     <h1 class="font-bold text-2xl mb-10">Kanban Board</h1>
+    <UiButton class="w-56 bg-purple-700" @click="toggleForm">
+      {{ isFormOpen ? 'Закрыть форму' : 'Создать задачу' }}
+    </UiButton>
   </div>
   <div class="grid grid-cols-4">
     <div>
