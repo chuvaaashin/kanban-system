@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import CreateTaskModal from '~/components/layout/CreateTaskForm.vue'
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
+
 useHead({
   title: 'Доска задач - Kanban System'
 })
-const { data: tasks, error } = await useFetch('/api/kanban')
+const { data: tasks } = await useFetch('/api/kanban')
 const backlog = computed(() => tasks.value?.filter(t => t.status === 'backlog') || [])
 const inProgress = computed(() => tasks.value?.filter(t => t.status === 'in_progress') || [])
 const paused = computed(() => tasks.value?.filter(t => t.status === 'paused') || [])
 const done = computed(() => tasks.value?.filter(t => t.status === 'done') || [])
 
 const isFormOpen = ref(false)
-
-const name = ref('')
-const status = ref('backlog')
-const description = ref('')
 const isModalOpen = ref(false)
+
+dayjs.locale('ru');
 </script>
 
 <template>
@@ -34,7 +35,7 @@ const isModalOpen = ref(false)
         <UiCard class="m-6 max-w-72" draggable="true">
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
           <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
-          <UiCardFooter class="text-gray-600 text-sm">{{ task.created_at }}</UiCardFooter>
+          <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
       </template>
     </div>
@@ -45,7 +46,7 @@ const isModalOpen = ref(false)
         <UiCard class="m-6 max-w-72" draggable="true">
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
           <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
-          <UiCardFooter class="text-gray-600 text-sm">{{ task.created_at }}</UiCardFooter>
+          <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
       </template>
     </div>
@@ -56,7 +57,7 @@ const isModalOpen = ref(false)
         <UiCard class="m-6 max-w-72" draggable="true">
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
           <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
-          <UiCardFooter class="text-gray-600 text-sm">{{ task.created_at }}</UiCardFooter>
+          <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
       </template>
     </div>
@@ -67,7 +68,7 @@ const isModalOpen = ref(false)
         <UiCard class="m-6 max-w-72" draggable="true">
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
           <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
-          <UiCardFooter class="text-gray-600 text-sm">{{ task.created_at }}</UiCardFooter>
+          <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
       </template>
     </div>
