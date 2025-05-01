@@ -6,24 +6,34 @@ useHead({
 })
 
 const authStore = useAuthStore()
-console.log(authStore.user)
+const { data: tasks } = await useFetch('/api/kanban')
+const total = computed(() => tasks.value?.length || 0)
+const inProgress = computed(() =>
+  tasks.value?.filter(t => t.status === 'in_progress').length || 0
+)
+const paused = computed(() =>
+  tasks.value?.filter(t => t.status === 'paused').length || 0
+)
 </script>
 
 <template>
   <div class="p-10">
-    <h1 class="font-bold text-2xl mb-3">CRM System by Nikita Chebaev</h1>
-    <h2 class="text-xl mb-6">Привет, {{ authStore.user?.login || 'пользователь' }} 👋</h2>
+    <h1 class="font-bold text-2xl mb-3">Система оптимизации и управления проектами</h1>
+    <h2 class="text-xl mb-3">Привет, {{ authStore.user?.login || 'пользователь' }} 👋</h2>
   </div>
   <div class="mt-8 p-10">
-    <h3 class="text-lg font-semibold mb-4">Статистика</h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div v-if="tasks" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
       <div class="p-4 bg-[#0f172a] rounded text-center">
-        <div class="text-2xl font-bold text-purple-400">12</div>
+        <div class="text-2xl font-bold text-purple-400">{{ total }}</div>
         <div class="text-sm text-gray-400">Всего задач</div>
       </div>
       <div class="p-4 bg-[#0f172a] rounded text-center">
-        <div class="text-2xl font-bold text-yellow-400">4</div>
+        <div class="text-2xl font-bold text-yellow-400">{{ inProgress }}</div>
         <div class="text-sm text-gray-400">В работе</div>
+      </div>
+      <div class="p-4 bg-[#0f172a] rounded text-center">
+        <div class="text-2xl font-bold text-blue-400">{{ paused }}</div>
+        <div class="text-sm text-gray-400">На паузе</div>
       </div>
     </div>
   </div>
