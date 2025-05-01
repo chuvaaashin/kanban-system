@@ -1,3 +1,34 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const emit = defineEmits(['close'])
+
+const name = ref('')
+const status = ref('backlog')
+const description = ref('')
+const statuses = [
+  { value: 'backlog', label: 'Архив' },
+  { value: 'in_progress', label: 'В работе' },
+  { value: 'paused', label: 'На паузе' },
+  { value: 'done', label: 'Выполнено' }
+]
+
+const createTask = async () => {
+  const { data, error } = await useFetch('/api/createTask', {
+    method: 'POST',
+    body: {
+      name: name.value,
+      status: status.value,
+      description: description.value,
+    }
+  })
+
+  if (!error.value) {
+    emit('close')
+  }
+}
+</script>
+
 <template>
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-[#0b1120] rounded-lg shadow-lg p-6 w-full max-w-lg relative">
@@ -25,7 +56,7 @@
             v-model="status"
             class="border rounded w-full p-2 bg-[#0b1120]"
           >
-            <option v-for="s in statuses" :key="s" :value="s">{{ s }}</option>
+            <option v-for="s in statuses" :key="s.value" :value="s.value">{{ s.label }}</option>
           </select>
         </div>
 
@@ -45,32 +76,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const emit = defineEmits(['close'])
-
-const name = ref('')
-const status = ref('backlog')
-const description = ref('')
-const statuses = ['backlog', 'in_progress', 'paused', 'done']
-
-const createTask = async () => {
-  const { data, error } = await useFetch('/api/createTask', {
-    method: 'POST',
-    body: {
-      name: name.value,
-      status: status.value,
-      description: description.value,
-    }
-  })
-
-  if (error.value) {
-    alert('Ошибка при создании задачи')
-  } else {
-    alert('Задача создана!')
-    emit('close')
-  }
-}
-</script>
