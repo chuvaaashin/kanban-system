@@ -7,7 +7,7 @@ import 'dayjs/locale/ru';
 useHead({
   title: 'Доска задач - Kanban System'
 })
-const { data: tasks } = await useFetch('/api/kanban')
+const { data: tasks, refresh } = await useFetch('/api/kanban')
 const backlog = computed(() => tasks.value?.filter(t => t.status === 'backlog') || [])
 const inProgress = computed(() => tasks.value?.filter(t => t.status === 'in_progress') || [])
 const paused = computed(() => tasks.value?.filter(t => t.status === 'paused') || [])
@@ -20,12 +20,20 @@ dayjs.locale('ru');
 </script>
 
 <template>
-
   <div class="p-10 flex justify-between items-center">
     <h1 class="font-bold text-2xl mb-10">Kanban Board</h1>
-    <UiButton class="w-56 bg-purple-700" @click="isModalOpen = true">
-      {{ isFormOpen ? 'Закрыть форму' : 'Создать задачу' }}
-    </UiButton>
+    <div>
+      <UiButton class="w-56 bg-purple-700" @click="isModalOpen = true">
+        {{ isFormOpen ? 'Закрыть форму' : 'Создать задачу' }}
+      </UiButton>
+      <UiButton
+        class="w-56 bg-purple-700 ml-5"
+        @click="isModalOpen = true"
+        :disabled="true"
+      >
+        Удалить задачу
+      </UiButton>
+    </div>
   </div>
   <CreateTaskModal v-if="isModalOpen" @close="isModalOpen = false" />
   <div class="grid grid-cols-4">
