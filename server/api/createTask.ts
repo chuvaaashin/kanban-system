@@ -1,6 +1,6 @@
 import { defineEventHandler, readBody } from 'h3'
 import { Pool } from 'pg'
-import { randomUUID } from 'crypto'
+
 
 const pool = new Pool({
   user: 'postgres',
@@ -13,7 +13,6 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const { name, status, description } = body
 
-  const id = randomUUID()
   const created_at = new Date().toISOString()
 
   await pool.query(`
@@ -21,5 +20,5 @@ export default defineEventHandler(async (event) => {
     VALUES ($1, $2, $3, $4)
   `, [name, status, description, created_at])
 
-  return { success: true, id }
+  return { success: true }
 })
