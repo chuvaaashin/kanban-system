@@ -21,7 +21,7 @@ export const MENU_DATA: IMenuItem[] = [
         url: '/workers',
     },
     {
-        name: 'Заказы',
+        name: 'Цели',
         icon: 'fluent:receipt-28-regular',
         url: '/orders',
     },

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Заказы - Kanban System'
+  title: 'Цели - Kanban System'
 })
 </script>
 
