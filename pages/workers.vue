@@ -29,9 +29,9 @@ const deleteSelectedWorker = async () => {
 </script>
 
 <template>
-  <div class="p-10 flex">
+  <div class="p-10 flex justify-between">
     <h1 class="font-bold text-2xl mb-3">Список сотрудников</h1>
-    <div class="pt-3 pl-10">
+    <div class="pt-3">
       <UiButton
           class="w-56 bg-purple-700 mr-10"
           @click="isModalOpen = true"

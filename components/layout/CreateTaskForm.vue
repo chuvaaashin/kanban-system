@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['create'])
 
 const name = ref('')
 const status = ref('backlog')
@@ -24,7 +24,7 @@ const createTask = async () => {
   })
 
   if (!error.value) {
-    emit('close')
+    emit('create')
   }
 }
 </script>
