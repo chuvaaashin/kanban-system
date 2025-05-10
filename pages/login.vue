@@ -7,7 +7,7 @@ useHead({
 
 const loginRef = ref('')
 const passwordRef = ref('')
-const ErrorMessage = ref<'string' | null>(null)
+const errorMessage = ref<string | null>(null)
 
 const authStore = useAuthStore()
 
@@ -18,57 +18,64 @@ const login = async () => {
   const hasUser = (obj: any): obj is {user:{login: string, name: string, status: boolean}} => {
     return obj && 'user' in obj;
   };
-  isLoadingStore.set(true)
+  setTimeout(()=> {
+    isLoadingStore.set(true)
+  }, 700)
   try {
     const { data, error } = await useFetch('/api/login', {
       method: 'POST',
       body: {
         login: loginRef.value,
         password: passwordRef.value,
+      },
+      redirect: "manual",
+      onResponseError({ response }) {
+        errorMessage.value = response._data?.statusMessage || 'Ошибка входа'
       }
     })
+    if (error.value) {
+      errorMessage.value = error.value.data?.statusMessage
+      return
+    }
     if (hasUser(data.value) && data.value?.user?.status) {
       authStore.set({
         login: loginRef.value,
         password: passwordRef.value,
         status: true,
       })
+      console.log('authStore set', authStore.user)
       await router.push('/')
-    }
-    if (error.value) {
-      alert(error.value.data?.statusMessage || 'Ошибка входа')
-      return
     }
   } catch (err) {
     console.error('Ошибка входа', err)
-    alert('Ошибка при авторизации')
   } finally {
-    isLoadingStore.set(false)
+    setTimeout(()=> {
+      isLoadingStore.set(false)
+    }, 700)
   }
 }
-console.log(authStore.user)
 </script>
 
 <template>
   <div class="flex items-center justify-center min-h-screen w-full">
     <div class="rounded bg-sidebar w-1/4 p-5 min-w-min">
-      <h1 class="text-2xl font-bold text-center mb-5">Авторизация</h1>
-      <form>
+      <h1 class="text-2xl font-bold text-center">Авторизация</h1>
+      <div v-if="errorMessage" class="text-red-600 text-center"> {{errorMessage}} </div>
+      <form @submit.prevent="login">
         <UiInput
-            :placeholder="ErrorMessage || 'Логин'"
-            type="email"
+            placeholder="Логин"
+            type="text"
             v-model="loginRef"
-            class="mb-3"/>
+            class="mb-3 mt-5"/>
         <UiInput
-            :placeholder="ErrorMessage || 'Пароль'"
-            type="email"
+            placeholder="Пароль"
+            type="text"
             v-model="passwordRef"
             class="mb-3"/>
         <div class="flex items-center justify-center gap-5">
           <UiButton
               class="hover:bg-purple-900 text-white transition-colors"
-              type="button"
-              @click="login"
+              type="submit"
           >
             Вход
           </UiButton>

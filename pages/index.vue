@@ -18,7 +18,7 @@ const paused = computed(() =>
 
 <template>
   <div class="p-10">
-    <h1 class="font-bold text-2xl mb-3">Система оптимизации и управления проектами</h1>
+    <h1 class="font-bold text-2xl mb-3">Система оптимизации и управления разработкой</h1>
     <h2 class="text-xl mb-3">Привет, {{ authStore.user?.login || 'пользователь' }} 👋</h2>
   </div>
   <div class="mt-8 p-10">
