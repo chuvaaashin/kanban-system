@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody } from 'h3'
+import { defineEventHandler, readBody, createError } from 'h3'
 import { Pool } from 'pg'
 
 const pool = new Pool({
@@ -15,19 +15,19 @@ export default defineEventHandler(async (event) => {
   const result = await pool.query('SELECT * FROM users WHERE login = $1', [login])
 
   if (result.rows.length === 0) {
-    return {
-      statusCode: 400,
-      body: { message: 'Пользователь не найден' }
-    }
+    throw createError( {
+      statusCode: 404,
+      statusMessage: 'Пользователь не найден'
+    })
   }
 
   const user = result.rows[0]
 
   if (user.password !== password) {
-    return {
-      statusCode: 400,
-      body: { message: 'Неверный пароль' }
-    }
+    throw createError( {
+      statusCode: 401,
+      statusMessage: 'Неверный пароль'
+    })
   }
 
   return {
