@@ -6,7 +6,7 @@ useHead({
 })
 
 const authStore = useAuthStore()
-const { data: tasks } = await useFetch('/api/kanban')
+const { data: tasks } = await useFetch('/api/kanban/kanban')
 const total = computed(() => tasks.value?.length || 0)
 const inProgress = computed(() =>
   tasks.value?.filter(t => t.status === 'in_progress').length || 0

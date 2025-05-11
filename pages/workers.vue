@@ -33,13 +33,13 @@ const deleteSelectedWorker = async () => {
     <h1 class="font-bold text-2xl mb-3">Список сотрудников</h1>
     <div class="pt-3">
       <UiButton
-          class="w-56 bg-purple-700 mr-10"
+          class="w-56 bg-purple-700"
           @click="isModalOpen = true"
       >
         Добавить сотрудника
       </UiButton>
       <UiButton
-          class="w-56 bg-purple-700"
+          class="w-56 bg-purple-700 ml-5"
           :disabled="!selectedWorkerId"
           @click="deleteSelectedWorker"
       >
