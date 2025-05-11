@@ -1,11 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+interface Worker {
+  id: number
+  name: string
+  surname: string
+  post: string
+}
+interface Order {
+  id: number
+  title: string
+  description: string
+  progress: number
+}
 
+const { data: orders } = await useFetch<Order[]>('/api/orders')
+const { data: workers } = await useFetch<Worker[]>('/api/workers')
+import { ref } from 'vue'
 const emit = defineEmits(['create'])
 
 const name = ref('')
 const status = ref('backlog')
 const description = ref('')
+const order_id = ref<number | null>(null)
+const worker_id = ref<number | null>(null)
+
 const statuses = [
   { value: 'backlog', label: 'Архив' },
   { value: 'in_progress', label: 'В работе' },
@@ -14,12 +31,14 @@ const statuses = [
 ]
 
 const createTask = async () => {
-  const { data, error } = await useFetch('/api/createTask', {
+  const { error } = await useFetch('/api/kanban/createTask', {
     method: 'POST',
     body: {
       name: name.value,
       status: status.value,
       description: description.value,
+      order_id: order_id.value,
+      worker_id: worker_id.value,
     }
   })
 
@@ -33,8 +52,8 @@ const createTask = async () => {
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-[#0b1120] rounded-lg shadow-lg p-6 w-full max-w-lg relative">
       <button
-        class="absolute top-2 right-2 text-gray-500 hover:text-black"
-        @click="$emit('close')"
+          class="absolute top-2 right-2 text-gray-500 hover:text-black"
+          @click="$emit('create')"
       >
         ✖
       </button>
@@ -42,31 +61,39 @@ const createTask = async () => {
       <form @submit.prevent="createTask">
         <div class="mb-4">
           <label class="block text-sm font-medium mb-1">Название</label>
-          <input
-            v-model="name"
-            type="text"
-            class="border rounded w-full p-2 bg-[#0b1120]"
-            required
-          />
+          <input v-model="name" type="text" class="border rounded w-full p-2 bg-[#0b1120]" required />
         </div>
 
         <div class="mb-4">
           <label class="block text-sm font-medium mb-1">Статус</label>
-          <select
-            v-model="status"
-            class="border rounded w-full p-2 bg-[#0b1120]"
-          >
+          <select v-model="status" class="border rounded w-full p-2 bg-[#0b1120]">
             <option v-for="s in statuses" :key="s.value" :value="s.value">{{ s.label }}</option>
           </select>
         </div>
 
         <div class="mb-4">
           <label class="block text-sm font-medium mb-1">Описание</label>
-          <textarea
-            v-model="description"
-            class="border rounded w-full p-2 bg-[#0b1120]"
-            rows="4"
-          />
+          <textarea v-model="description" class="border rounded w-full p-2 bg-[#0b1120]" rows="4" />
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Цель</label>
+          <select v-model="order_id" class="border rounded w-full p-2 bg-[#0b1120]">
+            <option :value="null" disabled>Выберите цель</option>
+            <option v-for="order in orders" :key="order.id" :value="order.id">
+              {{ order.title }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium mb-1">Сотрудник</label>
+          <select v-model="worker_id" class="border rounded w-full p-2 bg-[#0b1120]">
+            <option :value="null" disabled>Назначить сотрудника</option>
+            <option v-for="worker in workers" :key="worker.id" :value="worker.id">
+              {{ worker.name }} {{ worker.surname }}
+            </option>
+          </select>
         </div>
 
         <UiButton type="submit" class="bg-purple-700 text-white w-full">

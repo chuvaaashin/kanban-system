@@ -8,7 +8,7 @@ import { useFetch } from '#app'
 useHead({
   title: 'Доска задач - Kanban System'
 })
-const { data: tasks, refresh, error } = await useFetch('/api/kanban', {
+const { data: tasks, refresh, error } = await useFetch('/api/kanban/kanban', {
   transform: (data: any) => data as Array<{ id: number; name: string; status: string; description: string; created_at: string }>
 })
 
@@ -42,7 +42,7 @@ const onDrop = async (event: DragEvent, newStatus: string) => {
     if (isNaN(id)) {
       return
     }
-    const response = await $fetch('/api/kanbanUpdate', {
+    const response = await $fetch('/api/kanban/kanbanUpdate', {
       method: 'PATCH',
       body: { id, status: newStatus }
     })
@@ -87,14 +87,18 @@ const refreshAndOffModal = async () => {
       <h2 class="m-6 bg-purple-950 text-white rounded-lg flex justify-center items-center h-14 max-w-72">Архив</h2>
       <template v-for="task in backlog" :key="task.id">
         <UiCard
-            class="m-6 max-w-72 cursor-move"
+            class="m-6 max-w-72 cursor-pointer"
             draggable="true"
             @dragstart="onDragStart($event, task.id)"
+            @click="$router.push(`/${task.id}`)"
         >
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
-          <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
+          <UiCardContent class="text-gray-500 truncate">
+            {{ task.description.length > 50 ? task.description.slice(0, 50) + '...' : task.description }}
+          </UiCardContent>
           <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
+
       </template>
     </div>
 
@@ -106,14 +110,18 @@ const refreshAndOffModal = async () => {
       <h2 class="m-6 bg-purple-900 text-white rounded-lg flex justify-center items-center h-14 max-w-72">В работе</h2>
       <template v-for="task in inProgress" :key="task.id">
         <UiCard
-            class="m-6 max-w-72 cursor-move"
+            class="m-6 max-w-72 cursor-pointer"
             draggable="true"
             @dragstart="onDragStart($event, task.id)"
+            @click="$router.push(`/${task.id}`)"
         >
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
-          <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
+          <UiCardContent class="text-gray-500 truncate">
+            {{ task.description.length > 50 ? task.description.slice(0, 50) + '...' : task.description }}
+          </UiCardContent>
           <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
+
       </template>
     </div>
 
@@ -125,14 +133,18 @@ const refreshAndOffModal = async () => {
       <h2 class="m-6 bg-purple-800 text-white rounded-lg flex justify-center items-center h-14 max-w-72">На паузе</h2>
       <template v-for="task in paused" :key="task.id">
         <UiCard
-            class="m-6 max-w-72 cursor-move"
+            class="m-6 max-w-72 cursor-pointer"
             draggable="true"
             @dragstart="onDragStart($event, task.id)"
+            @click="$router.push(`/${task.id}`)"
         >
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
-          <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
+          <UiCardContent class="text-gray-500 truncate">
+            {{ task.description.length > 50 ? task.description.slice(0, 50) + '...' : task.description }}
+          </UiCardContent>
           <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
+
       </template>
     </div>
 
@@ -144,14 +156,18 @@ const refreshAndOffModal = async () => {
       <h2 class="m-6 bg-purple-700 text-white rounded-lg flex justify-center items-center h-14 max-w-72">Выполнено</h2>
       <template v-for="task in done" :key="task.id">
         <UiCard
-            class="m-6 max-w-72 cursor-move"
+            class="m-6 max-w-72 cursor-pointer"
             draggable="true"
             @dragstart="onDragStart($event, task.id)"
+            @click="$router.push(`/${task.id}`)"
         >
           <UiCardHeader role="button">{{ task.name }}</UiCardHeader>
-          <UiCardContent class="text-gray-500">{{ task.description }}</UiCardContent>
+          <UiCardContent class="text-gray-500 truncate">
+            {{ task.description.length > 50 ? task.description.slice(0, 50) + '...' : task.description }}
+          </UiCardContent>
           <UiCardFooter class="text-gray-600 text-sm">{{ dayjs(task.created_at).format('D MMMM YYYY, HH:mm') }}</UiCardFooter>
         </UiCard>
+
       </template>
     </div>
   </div>

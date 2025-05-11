@@ -11,14 +11,14 @@ const pool = new Pool({
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  const { name, status, description } = body
+  const { name, status, description, worker_id, order_id } = body
 
   const created_at = new Date().toISOString()
 
   await pool.query(`
-    INSERT INTO tasks (name, status, description, created_at)
-    VALUES ($1, $2, $3, $4)
-  `, [name, status, description, created_at])
+    INSERT INTO tasks (name, status, description, created_at, worker_id, order_id)
+    VALUES ($1, $2, $3, $4, $5, $6)
+  `, [name, status, description, created_at, worker_id, order_id])
 
   return { success: true }
 })
