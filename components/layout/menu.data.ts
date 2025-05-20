@@ -25,4 +25,9 @@ export const MENU_DATA: IMenuItem[] = [
         icon: 'fluent:receipt-28-regular',
         url: '/orders',
     },
+    {
+        name: 'Настройки',
+        icon: 'material-symbols:settings',
+        url: '/settings'
+    }
 ]
