@@ -37,9 +37,6 @@ const changePassword = async () => {
           class="bg-gray-800 mr-10"
       >Темная тема
       </UiButton>
-      <UiButton
-      >Фиолетовая тема
-      </UiButton>
     </div>
     <div>
       <h2 class="font-bold text-1xl mb-3">Настройки безопасности</h2>

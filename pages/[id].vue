@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { useFetch } from '#app'
+import { useAuthStore} from "~/store/auth.store";
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 
@@ -8,8 +9,14 @@ dayjs.locale('ru')
 
 const route = useRoute()
 const taskId = route.params.id
+const authStore = useAuthStore()
 
-const { data: task, error } = await useFetch(`/api/kanban/${taskId}`)
+const { data: task, error } = await useFetch(`/api/kanban/${taskId}`, {
+    headers: {
+    Authorization: `Bearer ${authStore.user.id}`
+  }
+})
+
 </script>
 
 <template>

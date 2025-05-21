@@ -1,12 +1,25 @@
 <script setup lang="ts">
 import {ref} from "vue";
 import CreateWorkersModal from '~/components/layout/CreateWorkersForm.vue'
+import {useFetch} from "#app";
 
 useHead({
   title: 'Сотрудники - Kanban System'
 })
 
-const { data: workers, refresh } = await useFetch('/api/workers')
+interface Worker {
+  id: number
+  name: string
+  surname: string
+  post: string
+}
+
+const authStore = useAuthStore()
+const { data: workers, refresh } = await useFetch<Worker[]>('/api/workers', {
+  headers: {
+    Authorization: `Bearer ${authStore.user.id}`,
+  }
+})
 
 const isModalOpen = ref(false)
 const selectedWorkerId = ref<number | null>(null)

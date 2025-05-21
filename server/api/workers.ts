@@ -8,11 +8,22 @@ const pool = new Pool({
   port: 5432
 })
 
+interface Worker {
+  id: number
+  name: string
+  surname: string
+  post: string
+}
+
 export default defineEventHandler(async (event) => {
+  const userID = getHeader(event, "Authorization")?.replace(`Bearer`, '')
   const method = event.method
 
   if (method === 'GET') {
-    const { rows } = await pool.query('SELECT id, name, surname, post FROM workers ORDER BY name DESC')
+    const { rows } = await pool.query(
+      'SELECT id, name, surname, post FROM workers WHERE user_id = $1 ORDER BY name DESC',
+      [Number(userID)]
+    )
     return rows
   }
   if (method === 'DELETE') {
@@ -21,7 +32,8 @@ export default defineEventHandler(async (event) => {
     if (!id) {
       return { success: false, error: 'ID не передан' }
     }
-    await pool.query('DELETE FROM workers WHERE id = $1', [id])
+    await pool.query('DELETE FROM workers WHERE id = $1 AND user_id = $2',
+        [id, Number(userID)])
     return { success: true }
   }
 })

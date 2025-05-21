@@ -2,12 +2,20 @@
 import { ref } from 'vue'
 import { useFetch } from '#app'
 import CreateOrderForm from '~/components/layout/CreateOrderForm.vue'
+import {useAuthStore} from "~/store/auth.store";
 useHead({
   title: 'Цели - Kanban System'
 })
+
+const authStore = useAuthStore()
+
 const selectedOrderId = ref<number | null>(null)
 const isModalOpen = ref(false)
-const { data: orders, refresh } = await useFetch('/api/orders')
+const { data: orders, refresh } = await useFetch('/api/orders', {
+  headers: {
+    Authorization: `Bearer ${authStore.user.id}`,
+  },
+})
 
 const deleteOrder = async () => {
   if (selectedOrderId.value) {

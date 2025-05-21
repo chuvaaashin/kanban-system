@@ -19,7 +19,7 @@ const login = ref('')
 const password = ref('')
 
 const authorize = async () => {
-  const hasUser = (obj: any): obj is {user:{login: string, name: string, status: boolean}} => {
+  const hasUser = (obj: any): obj is {user:{id:null | number, login: string, name: string, status: boolean}} => {
     return obj && 'user' in obj;
   };
   setTimeout(()=> {
@@ -43,6 +43,7 @@ const authorize = async () => {
     }
     if (hasUser(data.value) && data.value?.user?.status) {
       authStore.set({
+        id: data.value.user.id,
         login: loginRef.value,
         password: passwordRef.value,
         status: true,

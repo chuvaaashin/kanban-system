@@ -10,7 +10,7 @@ const pool = new Pool({
 
 export default defineEventHandler(async (event) => {
   const method = event.method
-
+  const userId = getHeader(event, "Authorization")?.replace(`Bearer `, '')
   if (method === 'GET') {
     const { rows } = await pool.query(`
       SELECT
@@ -23,8 +23,8 @@ export default defineEventHandler(async (event) => {
         ) as completed_tasks,
         (SELECT COUNT(*) FROM tasks WHERE tasks.order_id = orders.id) as total_tasks
       FROM orders
-      ORDER BY orders.id DESC
-    `)
+      WHERE orders.user_id = $1\
+      ORDER BY orders.id DESC`,[Number(userId)])
 
     const ordersWithProgress = rows.map(order => {
       const progress = order.total_tasks > 0 ? (order.completed_tasks / order.total_tasks) * 100 : 0

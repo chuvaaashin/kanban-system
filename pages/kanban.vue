@@ -4,11 +4,18 @@ import CreateTaskModal from '~/components/layout/CreateTaskForm.vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/ru'
 import { useFetch } from '#app'
+import {useAuthStore} from "~/store/auth.store";
 
 useHead({
   title: 'Доска задач - Kanban System'
 })
-const { data: tasks, refresh, error } = await useFetch('/api/kanban/kanban', {
+
+const authStore = useAuthStore()
+
+const { data: tasks, refresh } = await useFetch('/api/kanban/kanban', {
+  headers: {
+    Authorization: `Bearer ${authStore.user.id}`,
+  },
   transform: (data: any) => data as Array<{ id: number; name: string; status: string; description: string; created_at: string }>
 })
 

@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import {useAuthStore} from "~/store/auth.store";
+import {useFetch} from "#app";
 
 useHead({
   title: 'Главная - Kanban System'
 })
 
 const authStore = useAuthStore()
-const { data: tasks } = await useFetch('/api/kanban/kanban')
+const { data: tasks } = await useFetch('/api/kanban/kanban', {
+  headers: {
+    Authorization: `Bearer ${authStore.user.id}`,
+  },
+  transform: (data: any) => data as Array<{ id: number; name: string; status: string; description: string; created_at: string }>
+})
 const total = computed(() => tasks.value?.length || 0)
 const inProgress = computed(() =>
   tasks.value?.filter(t => t.status === 'in_progress').length || 0
