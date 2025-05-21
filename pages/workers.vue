@@ -64,7 +64,7 @@ const deleteSelectedWorker = async () => {
   <div class="mt-5 w-full">
   <table class="w-full text-left border-collapse">
     <thead>
-      <tr class="bg-gray-800 text-white">
+      <tr class="bg-[var(--accent-foreground)] text-white">
         <th class="p-3">Имя</th>
         <th class="p-3">Фамилия</th>
         <th class="p-3">Должность</th>

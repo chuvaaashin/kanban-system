@@ -21,7 +21,15 @@ const changePassword = async () => {
     passwordRef.value = ''
   }
 }
-
+const setTheme = (theme: 'light' | 'dark') => {
+  const html = document.documentElement
+  if (theme === 'dark') {
+    html.classList.add('dark')
+  } else {
+    html.classList.remove('dark')
+  }
+  localStorage.setItem('theme', theme)
+}
 </script>
 
 <template>
@@ -31,10 +39,12 @@ const changePassword = async () => {
       <h2 class="font-bold text-1xl mb-3">Настройки темы</h2>
       <UiButton
           class="bg-gray-300 text-black mr-10"
+          @click="setTheme('light')"
       >Светлая тема
       </UiButton>
       <UiButton
           class="bg-gray-800 mr-10"
+          @click="setTheme('dark')"
       >Темная тема
       </UiButton>
     </div>

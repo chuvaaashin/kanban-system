@@ -13,7 +13,7 @@ const props = defineProps({
   <div
       :class="
 			cn(
-				'rounded-lg bg-card text-card-foreground animation border border-transparent transition-colors hover:border-[#a252c83d]',
+				'rounded-lg bg-card text-card-foreground animation border border-transparent transition-colors  bg-[var(--popover)] hover:border-[#a252c83d]',
 				props.class
 			)
 		"
@@ -25,13 +25,13 @@ const props = defineProps({
 <style scoped>
 @keyframes show {
   from {
-    @apply border-[#a252c83d];
+    @apply border-[var(--secondary)];
     transform: scale(0.5) translateY(-30px);
     opacity: 0.4;
   }
 
   90% {
-    @apply border-[#a252c83d];
+    @apply border-[var(--secondary)];
   }
 
   to {

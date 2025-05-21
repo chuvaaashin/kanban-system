@@ -53,7 +53,7 @@ const deleteOrder = async () => {
   <div
       v-for="order in orders"
       :key="order.id"
-      class="bg-[#1e1b3a] rounded-2xl p-6 shadow-lg hover:shadow-xl transition"
+      class="bg-[var(--accent-foreground)] rounded-2xl p-6 shadow-lg hover:shadow-xl transition"
       @click="selectedOrderId = order.id"
   :class="[
   selectedOrderId === order.id ? 'bg-purple-700' : '',

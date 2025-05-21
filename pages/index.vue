@@ -29,15 +29,15 @@ const paused = computed(() =>
   </div>
   <div class="mt-8 p-10">
     <div v-if="tasks" class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-      <div class="p-4 bg-[#0f172a] rounded text-center">
+      <div class="p-4 bg-[var(--muted)] rounded text-center">
         <div class="text-2xl font-bold text-purple-400">{{ total }}</div>
         <div class="text-sm text-gray-400">Всего задач</div>
       </div>
-      <div class="p-4 bg-[#0f172a] rounded text-center">
+      <div class="p-4 bg-[var(--muted)] rounded text-center">
         <div class="text-2xl font-bold text-yellow-400">{{ inProgress }}</div>
         <div class="text-sm text-gray-400">В работе</div>
       </div>
-      <div class="p-4 bg-[#0f172a] rounded text-center">
+      <div class="p-4 bg-[var(--muted)] rounded text-center">
         <div class="text-2xl font-bold text-blue-400">{{ paused }}</div>
         <div class="text-sm text-gray-400">На паузе</div>
       </div>
