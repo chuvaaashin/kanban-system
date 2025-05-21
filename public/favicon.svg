@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256px" height="167px" viewBox="0 0 48 48" fill="none" preserveAspectRatio="xMidYMid">
+        <!-- Колонки Канбана -->
+        <rect x="6" y="6" width="10" height="36" rx="2" fill="#a252c8" />
+        <rect x="19" y="6" width="10" height="36" rx="2" fill="#a252c8" opacity="0.7" />
+        <rect x="32" y="6" width="10" height="36" rx="2" fill="#a252c8" opacity="0.5" />
+
+        <!-- Линия движения -->
+        <path d="M6 36 L14 28 L24 36 L34 24 L44 36" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Этапы -->
+        <circle cx="6" cy="36" r="1.5" fill="white"/>
+        <circle cx="14" cy="28" r="1.5" fill="white"/>
+        <circle cx="24" cy="36" r="1.5" fill="white"/>
+        <circle cx="34" cy="24" r="1.5" fill="white"/>
+        <circle cx="44" cy="36" r="1.5" fill="white"/>
+</svg>
