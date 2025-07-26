@@ -1,4 +1,4 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getHeader, createError, getQuery } from 'h3'
 import { Pool } from 'pg'
 
 const pool = new Pool({
@@ -16,24 +16,32 @@ interface Worker {
 }
 
 export default defineEventHandler(async (event) => {
-  const userID = getHeader(event, "Authorization")?.replace(`Bearer`, '')
+  const authHeader = getHeader(event, "Authorization")
+  const userID = authHeader ? Number(authHeader.replace('Bearer ', '')) : NaN
+  if (isNaN(userID)) {
+    throw createError({ statusCode: 401, statusMessage: 'Неавторизованный доступ' })
+  }
   const method = event.method
 
   if (method === 'GET') {
     const { rows } = await pool.query(
       'SELECT id, name, surname, post FROM workers WHERE user_id = $1 ORDER BY name DESC',
-      [Number(userID)]
+      [userID]
     )
     return rows
   }
+
   if (method === 'DELETE') {
     const query = getQuery(event)
     const id = query.id
+
     if (!id) {
       return { success: false, error: 'ID не передан' }
     }
+
     await pool.query('DELETE FROM workers WHERE id = $1 AND user_id = $2',
-        [id, Number(userID)])
+      [id, userID]
+    )
     return { success: true }
   }
 })

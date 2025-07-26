@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {useAuthStore, useIsLoadingStore} from "~/store/auth.store";
+import {useAuthStore} from "~/store/auth.store";
+import {useIsLoadingStore} from "~/store/loading.store";
 import { ref } from 'vue'
 
 useHead({

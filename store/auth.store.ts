@@ -29,14 +29,3 @@ export const useAuthStore = defineStore('auth', {
     },
     persist: true,
 })
-
-export const useIsLoadingStore = defineStore('isLoading', {
-    state: () => ({
-        isLoading: true
-    }),
-    actions: {
-        set(data: boolean) {
-            this.$patch({isLoading: data})
-        }
-    }
-})

@@ -11,16 +11,15 @@ const route = useRoute()
 const taskId = route.params.id
 const authStore = useAuthStore()
 
-const { data: task, error } = await useFetch(`/api/kanban/${taskId}`, {
+const { data: task } = await useFetch(`/api/kanban/${taskId}`, {
     headers: {
     Authorization: `Bearer ${authStore.user.id}`
   }
 })
-
 </script>
 
 <template>
-  <div v-if="task" class="p-10 bg-[#0b1120] rounded-xl text-white">
+  <div v-if="task" class="p-10 bg-[var(--background)] rounded-xl text-white">
     <h1 class="text-3xl font-bold mb-6">{{ task.name }}</h1>
 
     <div v-if="task.order_title" class="mb-4">
