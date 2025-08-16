@@ -1,12 +1,6 @@
 import { defineEventHandler, getRouterParam, createError } from 'h3'
-import { Pool } from 'pg'
+import { pool } from '@/server/api/pool'
 
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'kanban_system',
-    port: 5432,
-})
 
 export default defineEventHandler(async (event) => {
     const authHeader = getHeader(event, "Authorization")
