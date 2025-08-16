@@ -1,12 +1,6 @@
 import { defineEventHandler, readBody, createError } from 'h3'
-import { Pool } from 'pg'
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'kanban_system',
-    password: '',
-    port: 5432,
-})
+import { pool } from '@/server/api/pool'
+
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
