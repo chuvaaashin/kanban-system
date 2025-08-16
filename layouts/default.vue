@@ -2,13 +2,13 @@
 import {useAuthStore} from "~/store/auth.store";
 import {useIsLoadingStore} from "~/store/loading.store";
 
-const store = useAuthStore()
+const authStore = useAuthStore()
 const isLoadingStore = useIsLoadingStore()
 const router = useRouter()
 
 onMounted(async () => {
   try {
-    if (!store.isAuth) {
+    if (!authStore.isAuth) {
       await router.push('/login')
     }
   } finally {
@@ -18,9 +18,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <LayoutLoader v-if="isLoadingStore.isLoading" />
-  <section v-else :class="{grid: store.isAuth}">
-    <LayoutSidebar v-if="store.isAuth"/>
+  <LayoutLoader v-show="isLoadingStore.isLoading" />
+  <section :class="{grid: authStore.isAuth}">
+    <LayoutSidebar v-show="authStore.isAuth"/>
     <div>
       <slot />
     </div>
