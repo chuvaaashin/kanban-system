@@ -114,7 +114,7 @@ const createUser = async () => {
   </div>
   <div v-if="showRegistrationForm === true">
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-[#0b1120] rounded-lg shadow-lg p-6 w-full max-w-lg relative">
+      <div class="bg-[var(--popover)] rounded-lg shadow-lg p-6 w-full max-w-lg relative">
         <button
             class="absolute top-2 right-2 text-gray-500 hover:text-black"
             @click="showRegistrationForm = false"
@@ -128,7 +128,7 @@ const createUser = async () => {
             <input
                 v-model="login"
                 type="text"
-                class="border rounded w-full p-2 bg-[#0b1120]"
+                class="border rounded w-full p-2 bg-[var(--popover)]"
                 required
             />
           </div>
@@ -138,11 +138,10 @@ const createUser = async () => {
             <input
                 v-model="password"
                 type="text"
-                class="border rounded w-full p-2 bg-[#0b1120]"
+                class="border rounded w-full p-2 bg-[var(--popover)]"
                 required
             />
           </div>
-
           <UiButton type="submit" class="bg-purple-700 text-white w-full">
             Регистрация
           </UiButton>
